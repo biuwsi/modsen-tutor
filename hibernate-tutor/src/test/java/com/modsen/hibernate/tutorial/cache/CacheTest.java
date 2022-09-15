@@ -1,12 +1,11 @@
 package com.modsen.hibernate.tutorial.cache;
 
+import com.modsen.hibernate.tutorial.BaseHibernateTest;
 import com.modsen.hibernate.tutorial.cache.model.CachedCustomer;
 import com.modsen.hibernate.tutorial.cache.model.Customer;
 import lombok.extern.log4j.Log4j2;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,15 +14,12 @@ import java.util.Random;
 import java.util.UUID;
 
 @Log4j2
-public class CacheTest {
-    private final SessionFactory sessionFactory;
+public class CacheTest extends BaseHibernateTest {
     private Long existingCustomerId;
     private String name;
 
     public CacheTest() {
-        this.sessionFactory = new Configuration()
-                .configure("hibernate-second-lvl-cache.cfg.xml")
-                .buildSessionFactory();
+        super("hibernate-second-lvl-cache.cfg.xml");
     }
 
     @BeforeEach
@@ -55,7 +51,7 @@ public class CacheTest {
             final Customer customer2 = session.get(Customer.class, existingCustomerId);
 
             log.info("Additional query does not appear: entity got from 1-sq lvl cache. Even links the same");
-            Assertions.assertTrue(customer == customer2);
+            Assertions.assertSame(customer, customer2);
         }
     }
 
@@ -74,7 +70,7 @@ public class CacheTest {
             customer2 = session.get(Customer.class, existingCustomerId);
         }
 
-        Assertions.assertFalse(customer1 == customer2);
+        Assertions.assertNotSame(customer1, customer2);
     }
 
     @Test

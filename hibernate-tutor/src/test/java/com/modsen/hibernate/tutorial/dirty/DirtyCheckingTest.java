@@ -1,5 +1,6 @@
 package com.modsen.hibernate.tutorial.dirty;
 
+import com.modsen.hibernate.tutorial.BaseHibernateTest;
 import com.modsen.hibernate.tutorial.dirty.model.Customer;
 import lombok.extern.log4j.Log4j2;
 import org.hibernate.Session;
@@ -14,16 +15,13 @@ import java.util.Random;
 import java.util.UUID;
 
 @Log4j2
-public class DirtyCheckingTest {
+public class DirtyCheckingTest extends BaseHibernateTest {
 
-    private final SessionFactory sessionFactory;
     private Long existingCustomerId;
     private Customer savedCustomer;
 
     public DirtyCheckingTest() {
-        this.sessionFactory = new Configuration()
-                .configure("hibernate-dirty.cfg.xml")
-                .buildSessionFactory();
+        super("hibernate-dirty.cfg.xml");
     }
 
     @BeforeEach

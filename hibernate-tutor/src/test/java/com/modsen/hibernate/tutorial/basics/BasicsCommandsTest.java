@@ -1,23 +1,18 @@
 package com.modsen.hibernate.tutorial.basics;
 
+import com.modsen.hibernate.tutorial.BaseHibernateTest;
 import com.modsen.hibernate.tutorial.basics.model.Customer;
 import lombok.extern.log4j.Log4j2;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
 @Log4j2
-public class BasicsCommandsTest {
-    private SessionFactory sessionFactory;
-
+public class BasicsCommandsTest extends BaseHibernateTest {
     public BasicsCommandsTest() {
-        sessionFactory = new Configuration()
-                .configure("hibernate-basics.cfg.xml")
-                .buildSessionFactory();
+        super("hibernate-basics.cfg.xml");
     }
 
     @Test
